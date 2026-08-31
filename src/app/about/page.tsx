@@ -39,17 +39,14 @@ export default function AboutPage() {
             </h2>
 
             <p className="mt-6 text-gray-600 leading-8">
-              Liyon Lanka Engineering is a trusted engineering and
-              construction company committed to delivering high-quality,
-              innovative, and sustainable solutions for industrial,
-              commercial, and infrastructure projects.
+              Liyon Lanka Engineering is a trusted engineering construction company specializing in mechanical, structural, and civil engineering solutions. We provide high-quality fabrication, installation, piping, machinery installation with a commitment to quality, safety, and timely project delivery, our experienced team delivers reliable engineering solutions to meet our clients' requirements. We focus on precision workmanship, industry standards, and customer satisfaction in every project we undertaken.
             </p>
-
+            <br />
+            <h2 className="text-4xl font-bold text-blue-900">
+              Our Commitment
+            </h2>
             <p className="mt-6 text-gray-600 leading-8">
-              Our experienced engineers, technical specialists, and
-              project managers work together to provide safe,
-              cost-effective, and reliable engineering services while
-              maintaining the highest professional standards.
+              At Liyon Lanka Engineering, we are dedicated to delivering safe, cost-effective, and innovative engineering solutions that exceed client expectations. Our goal is to build long-term relationships through quality workmanship, professional service, and dependable project execution.
             </p>
           </div>
         </div>
@@ -65,9 +62,7 @@ export default function AboutPage() {
             </h3>
 
             <p className="mt-6 text-gray-600 leading-8">
-              To provide innovative engineering and construction
-              solutions while maintaining excellence in quality,
-              safety, sustainability, and customer satisfaction.
+              To provide innovative engineering and technical solutions that exceed our clients' expectations through quality workmanship, cost-effective execution, professional expertise, and a commitment to safety, reliability, sustainability, and continuous improvement.
             </p>
           </div>
 
@@ -77,9 +72,7 @@ export default function AboutPage() {
             </h3>
 
             <p className="mt-6 text-gray-600 leading-8">
-              To become one of Sri Lanka's leading engineering
-              companies recognized for excellence, innovation,
-              integrity, and sustainable development.
+              To become the most recognized leading Engineering and Construction Solutions Company in Sri Lanka, delivering excellence through innovation, quality, and sustainability.
             </p>
           </div>
 
