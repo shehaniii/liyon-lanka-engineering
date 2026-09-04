@@ -65,7 +65,7 @@ export default function AdminMachineryPage() {
       const res = await uploadAdminImage(e.target.files[0]);
       setEditingMachinery((prev) => ({
         ...(prev || { name: "" }),
-        imageUrl: res.fileUrl,
+        imageUrl: res.url,
       }));
       showToast("Image uploaded!");
     } catch {

@@ -165,7 +165,7 @@ export const getProjects = () => request<Project[]>("/api/projects");
 export const getMachinery = () => request<Machinery[]>("/api/machinery");
 export const getCareers = () => request<Career[]>("/api/careers");
 
-export async function uploadCv(file: File): Promise<{ fileUrl: string; originalFileName: string }> {
+export async function uploadCv(file: File): Promise<{ url: string; originalFileName: string }> {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -221,10 +221,16 @@ export async function adminLogin(email: string, password: string): Promise<{ tok
 
 export const getAdminProfile = () => request<AdminUser>("/api/admin/profile");
 
-export async function changeAdminPassword(currentPassword: string, newPassword: string) {
+export async function requestAdminPasswordVerification() {
+  return request<{ message: string }>("/api/admin/profile/password/verification", {
+    method: "POST",
+  });
+}
+
+export async function changeAdminPassword(token: string, newPassword: string) {
   return request<{ message: string }>("/api/admin/profile/password", {
     method: "PUT",
-    body: JSON.stringify({ currentPassword, newPassword }),
+    body: JSON.stringify({ token, newPassword }),
   });
 }
 
@@ -282,7 +288,7 @@ export const deleteAdminMessage = (id: number) =>
   request<void>(`/api/admin/messages/${id}`, { method: "DELETE" });
 
 // Admin Image Upload
-export async function uploadAdminImage(file: File): Promise<{ fileUrl: string; originalFileName: string }> {
+export async function uploadAdminImage(file: File): Promise<{ url: string; originalFileName: string }> {
   const token = getAdminToken();
   const formData = new FormData();
   formData.append("file", file);

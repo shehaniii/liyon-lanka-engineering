@@ -66,7 +66,7 @@ export default function AdminProjectsPage() {
       const res = await uploadAdminImage(e.target.files[0]);
       setEditingProject((prev) => ({
         ...(prev || { title: "", description: "", category: "", featured: false }),
-        [field]: res.fileUrl,
+        [field]: res.url,
       }));
       showToast("Image uploaded!");
     } catch {

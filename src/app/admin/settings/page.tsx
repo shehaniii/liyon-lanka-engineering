@@ -1,15 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAdminProfile, changeAdminPassword, type AdminUser } from "@/lib/api";
-import { ShieldCheck, Key, UserCheck, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  getAdminProfile,
+  changeAdminPassword,
+  requestAdminPasswordVerification,
+  type AdminUser,
+} from "@/lib/api";
+import { Key, UserCheck, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function AdminSettingsPage() {
   const [profile, setProfile] = useState<AdminUser | null>(null);
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [verificationToken, setVerificationToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sendingVerification, setSendingVerification] = useState(false);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   useEffect(() => {
@@ -32,21 +38,42 @@ export default function AdminSettingsPage() {
       return;
     }
 
+    if (!verificationToken.trim()) {
+      setFeedback({ type: "error", text: "Request a verification email and enter its token first." });
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await changeAdminPassword(currentPassword, newPassword);
+      await changeAdminPassword(verificationToken.trim(), newPassword);
       setFeedback({ type: "success", text: "Password changed successfully!" });
-      setCurrentPassword("");
+      setVerificationToken("");
       setNewPassword("");
       setConfirmPassword("");
     } catch (err: unknown) {
       setFeedback({
         type: "error",
-        text: err instanceof Error ? err.message : "Failed to change password. Ensure current password is correct.",
+        text: err instanceof Error ? err.message : "Failed to change password. Check your verification token.",
       });
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleSendVerification() {
+    setFeedback(null);
+    setSendingVerification(true);
+    try {
+      await requestAdminPasswordVerification();
+      setFeedback({ type: "success", text: "A verification token was sent to your admin email." });
+    } catch (err: unknown) {
+      setFeedback({
+        type: "error",
+        text: err instanceof Error ? err.message : "Could not send the verification email.",
+      });
+    } finally {
+      setSendingVerification(false);
     }
   }
 
@@ -80,6 +107,9 @@ export default function AdminSettingsPage() {
           <Key size={20} className="text-amber-500" />
           <span>Change Security Password</span>
         </h2>
+        <p className="text-sm text-slate-500">
+          Request a verification token by email, then use it to set your new password. Your current password is not required.
+        </p>
 
         {feedback && (
           <div
@@ -97,14 +127,14 @@ export default function AdminSettingsPage() {
         <form onSubmit={handlePasswordChange} className="space-y-4 text-sm">
           <div>
             <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">
-              Current Password *
+              Email Verification Token *
             </label>
             <input
-              type="password"
+              type="text"
               required
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              placeholder="••••••••"
+              value={verificationToken}
+              onChange={(e) => setVerificationToken(e.target.value)}
+              placeholder="Paste the token from your email"
               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none"
             />
           </div>
@@ -139,13 +169,23 @@ export default function AdminSettingsPage() {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-950 font-bold rounded-xl text-sm transition shadow-sm disabled:opacity-50"
-          >
-            {loading ? "Updating Password..." : "Update Password"}
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={handleSendVerification}
+              disabled={sendingVerification}
+              className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-sm transition shadow-sm disabled:opacity-50"
+            >
+              {sendingVerification ? "Sending Email..." : "Email Verification Token"}
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-950 font-bold rounded-xl text-sm transition shadow-sm disabled:opacity-50"
+            >
+              {loading ? "Updating Password..." : "Update Password"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -48,7 +48,7 @@ export default function CareersPage() {
         email,
         phone,
         coverLetter,
-        cvUrl: uploadRes.fileUrl,
+        cvUrl: uploadRes.url,
       });
 
       setStatusMessage({
