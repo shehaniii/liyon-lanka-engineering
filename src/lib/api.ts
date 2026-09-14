@@ -219,6 +219,35 @@ export async function adminLogin(email: string, password: string): Promise<{ tok
   return response.json();
 }
 
+export async function requestAdminPasswordReset(email: string): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/api/admin/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  if (!response.ok) throw new Error("Unable to process the request.");
+  return response.json();
+}
+
+export async function resetAdminPassword(token: string, newPassword: string): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/api/admin/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
+  if (!response.ok) {
+    let message = "This reset link is invalid or expired.";
+    try {
+      const body = await response.json();
+      message = body.message || message;
+    } catch {
+      // Keep a safe generic error when the server does not return JSON.
+    }
+    throw new Error(message);
+  }
+  return response.json();
+}
+
 export const getAdminProfile = () => request<AdminUser>("/api/admin/profile");
 
 export async function requestAdminPasswordVerification() {

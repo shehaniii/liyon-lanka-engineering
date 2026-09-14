@@ -7,8 +7,8 @@ import { ShieldCheck, Mail, Lock, ArrowRight, AlertCircle } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@liyonlanka.com");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@liyonlanka.com"
+                placeholder="Enter your admin email"
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm"
               />
             </div>
@@ -103,8 +103,10 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-slate-200 text-center text-xs text-slate-400">
-          Default Initial: <code className="text-amber-700 bg-amber-50 px-1 py-0.5 rounded">admin@liyonlanka.com</code> / <code className="text-amber-700 bg-amber-50 px-1 py-0.5 rounded">admin123</code>
+        <div className="mt-5 text-center">
+          <a href="/admin/forgot-password" className="text-sm font-semibold text-amber-700 hover:text-amber-800 transition">
+            Forgot Password?
+          </a>
         </div>
       </div>
     </div>

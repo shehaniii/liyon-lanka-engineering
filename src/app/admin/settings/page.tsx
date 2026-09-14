@@ -89,13 +89,13 @@ export default function AdminSettingsPage() {
           <div>
             <p className="text-xs text-slate-400 font-semibold uppercase">Administrator Name</p>
             <p className="font-bold text-slate-800 mt-0.5">
-              {profile?.fullName || "Liyon Lanka Administrator"}
+              {profile?.fullName || "Administrator"}
             </p>
           </div>
           <div>
             <p className="text-xs text-slate-400 font-semibold uppercase">Email Address</p>
             <p className="font-bold text-slate-800 mt-0.5">
-              {profile?.email || "admin@liyonlanka.com"}
+              {profile?.email || "Admin account"}
             </p>
           </div>
         </div>

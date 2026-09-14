@@ -38,7 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     setMounted(true);
     // Don't guard the login page
-    if (pathname === "/admin/login") return;
+    if (pathname === "/admin/login" || pathname === "/admin/forgot-password" || pathname === "/admin/reset-password") return;
 
     const token = getAdminToken();
     if (!token) {
@@ -49,7 +49,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (user) setAdminUser(user);
   }, [pathname, router]);
 
-  if (pathname === "/admin/login") {
+  if (pathname === "/admin/login" || pathname === "/admin/forgot-password" || pathname === "/admin/reset-password") {
     return <>{children}</>;
   }
 
@@ -112,7 +112,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   {adminUser?.fullName || "Administrator"}
                 </p>
                 <p className="text-[10px] text-slate-400 truncate">
-                  {adminUser?.email || "admin@liyonlanka.com"}
+                  {adminUser?.email || "Admin account"}
                 </p>
               </div>
             </div>
